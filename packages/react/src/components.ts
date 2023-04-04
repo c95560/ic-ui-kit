@@ -18,6 +18,7 @@ export const IcCheckbox = /*@__PURE__*/createReactComponent<JSX.IcCheckbox, HTML
 export const IcCheckboxGroup = /*@__PURE__*/createReactComponent<JSX.IcCheckboxGroup, HTMLIcCheckboxGroupElement>('ic-checkbox-group');
 export const IcChip = /*@__PURE__*/createReactComponent<JSX.IcChip, HTMLIcChipElement>('ic-chip');
 export const IcClassificationBanner = /*@__PURE__*/createReactComponent<JSX.IcClassificationBanner, HTMLIcClassificationBannerElement>('ic-classification-banner');
+export const IcComponentGraph = /*@__PURE__*/createReactComponent<JSX.IcComponentGraph, HTMLIcComponentGraphElement>('ic-component-graph');
 export const IcDataEntity = /*@__PURE__*/createReactComponent<JSX.IcDataEntity, HTMLIcDataEntityElement>('ic-data-entity');
 export const IcDataRow = /*@__PURE__*/createReactComponent<JSX.IcDataRow, HTMLIcDataRowElement>('ic-data-row');
 export const IcDivider = /*@__PURE__*/createReactComponent<JSX.IcDivider, HTMLIcDividerElement>('ic-divider');

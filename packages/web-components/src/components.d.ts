@@ -336,6 +336,16 @@ export namespace Components {
          */
         "upTo"?: boolean;
     }
+    interface IcComponentGraph {
+        /**
+          * If `true`, the disabled state will be set.
+         */
+        "disabled"?: boolean;
+        /**
+          * If `true`, the readonly state will be set.
+         */
+        "readonly"?: boolean;
+    }
     interface IcDataEntity {
         /**
           * The title for the data entity.
@@ -1688,6 +1698,12 @@ declare global {
         prototype: HTMLIcClassificationBannerElement;
         new (): HTMLIcClassificationBannerElement;
     };
+    interface HTMLIcComponentGraphElement extends Components.IcComponentGraph, HTMLStencilElement {
+    }
+    var HTMLIcComponentGraphElement: {
+        prototype: HTMLIcComponentGraphElement;
+        new (): HTMLIcComponentGraphElement;
+    };
     interface HTMLIcDataEntityElement extends Components.IcDataEntity, HTMLStencilElement {
     }
     var HTMLIcDataEntityElement: {
@@ -1951,6 +1967,7 @@ declare global {
         "ic-checkbox-group": HTMLIcCheckboxGroupElement;
         "ic-chip": HTMLIcChipElement;
         "ic-classification-banner": HTMLIcClassificationBannerElement;
+        "ic-component-graph": HTMLIcComponentGraphElement;
         "ic-data-entity": HTMLIcDataEntityElement;
         "ic-data-row": HTMLIcDataRowElement;
         "ic-divider": HTMLIcDividerElement;
@@ -2320,6 +2337,16 @@ declare namespace LocalJSX {
           * If `true`, "Up to" will be displayed before the classification and country.
          */
         "upTo"?: boolean;
+    }
+    interface IcComponentGraph {
+        /**
+          * If `true`, the disabled state will be set.
+         */
+        "disabled"?: boolean;
+        /**
+          * If `true`, the readonly state will be set.
+         */
+        "readonly"?: boolean;
     }
     interface IcDataEntity {
         /**
@@ -3620,6 +3647,7 @@ declare namespace LocalJSX {
         "ic-checkbox-group": IcCheckboxGroup;
         "ic-chip": IcChip;
         "ic-classification-banner": IcClassificationBanner;
+        "ic-component-graph": IcComponentGraph;
         "ic-data-entity": IcDataEntity;
         "ic-data-row": IcDataRow;
         "ic-divider": IcDivider;
@@ -3678,6 +3706,7 @@ declare module "@stencil/core" {
             "ic-checkbox-group": LocalJSX.IcCheckboxGroup & JSXBase.HTMLAttributes<HTMLIcCheckboxGroupElement>;
             "ic-chip": LocalJSX.IcChip & JSXBase.HTMLAttributes<HTMLIcChipElement>;
             "ic-classification-banner": LocalJSX.IcClassificationBanner & JSXBase.HTMLAttributes<HTMLIcClassificationBannerElement>;
+            "ic-component-graph": LocalJSX.IcComponentGraph & JSXBase.HTMLAttributes<HTMLIcComponentGraphElement>;
             "ic-data-entity": LocalJSX.IcDataEntity & JSXBase.HTMLAttributes<HTMLIcDataEntityElement>;
             "ic-data-row": LocalJSX.IcDataRow & JSXBase.HTMLAttributes<HTMLIcDataRowElement>;
             "ic-divider": LocalJSX.IcDivider & JSXBase.HTMLAttributes<HTMLIcDividerElement>;
