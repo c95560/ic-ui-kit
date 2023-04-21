@@ -32,10 +32,13 @@
  - [ic-input-validation](../ic-input-validation)
  - [ic-loading-indicator](../ic-loading-indicator)
  - [ic-menu](../ic-menu)
+ - [ic-menu-group](../ic-menu-group)
+ - [ic-menu-item](../ic-menu-item)
  - [ic-navigation-group](../ic-navigation-group)
  - [ic-navigation-item](../ic-navigation-item)
  - [ic-navigation-menu](../ic-navigation-menu)
  - [ic-page-header](../ic-page-header)
+ - [ic-popover-menu](../ic-popover-menu)
  - [ic-radio-option](../ic-radio-option)
  - [ic-select](../ic-select)
  - [ic-side-navigation](../ic-side-navigation)
@@ -66,10 +69,13 @@ graph TD;
   ic-input-validation --> ic-typography
   ic-loading-indicator --> ic-typography
   ic-menu --> ic-typography
+  ic-menu-group --> ic-typography
+  ic-menu-item --> ic-typography
   ic-navigation-group --> ic-typography
   ic-navigation-item --> ic-typography
   ic-navigation-menu --> ic-typography
   ic-page-header --> ic-typography
+  ic-popover-menu --> ic-typography
   ic-radio-option --> ic-typography
   ic-select --> ic-typography
   ic-side-navigation --> ic-typography

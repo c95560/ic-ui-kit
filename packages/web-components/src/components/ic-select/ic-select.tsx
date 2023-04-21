@@ -169,7 +169,7 @@ export class Select {
   @Prop() searchMatchPosition?: IcSearchMatchPositions = "anywhere";
 
   /**
-   * The number of characters until suggestions appear for a searchable select.
+   * @deprecated This prop should not be used anymore.
    */
   @Prop() charactersUntilSuggestions?: number = 0;
 
@@ -316,17 +316,13 @@ export class Select {
 
   private isMenuEnabled = () => {
     return (
-      ((this.searchableSelectInputValue === null ||
-        this.searchableSelectInputValue === "") &&
-        this.charactersUntilSuggestions === 0) ||
-      (this.searchableSelectInputValue &&
-        this.searchableSelectInputValue.length >=
-          this.charactersUntilSuggestions)
+      this.searchableSelectInputValue !== null ||
+      this.searchableSelectInputValue !== ""
     );
   };
 
   private setOptionsValuesFromLabels = (): void => {
-    if (this.options.length > 0) {
+    if (this.options.length > 0 && this.options.map) {
       this.options.map((option) => {
         if (!option.value) {
           option.value = option.label;
@@ -674,11 +670,15 @@ export class Select {
   };
 
   private onBlur = (event: FocusEvent): void => {
-    if (
+    const isSearchableAndNoFocusedInternalElements =
       this.searchable &&
       event.relatedTarget !== this.menu &&
-      !(this.clearButton && event.relatedTarget === this.clearButton)
-    ) {
+      !Array.from(this.menu.querySelectorAll("[role='option']")).includes(
+        event.relatedTarget as Element
+      ) &&
+      !(this.clearButton && event.relatedTarget === this.clearButton);
+
+    if (isSearchableAndNoFocusedInternalElements) {
       this.setMenuChange(false);
       this.handleFocusIndicatorDisplay();
     }
@@ -767,7 +767,14 @@ export class Select {
     ).trim();
 
     return (
-      <Host>
+      <Host
+        class={{
+          disabled: disabled,
+          searchable: searchable,
+          small: small,
+          "full-width": fullWidth,
+        }}
+      >
         <ic-input-container readonly={readonly}>
           {!hideLabel && (
             <ic-input-label
@@ -897,7 +904,6 @@ export class Select {
                     "expand-icon-filled": !(
                       currValue == null || currValue === ""
                     ),
-                    "expand-icon-disabled": !this.isMenuEnabled(),
                   }}
                   innerHTML={Expand}
                   aria-hidden="true"

@@ -24,7 +24,7 @@ import {
 @Component({
   tag: "ic-menu",
   styleUrl: "ic-menu.css",
-  shadow: true,
+  scoped: true,
 })
 export class Menu {
   @Element() host: HTMLIcMenuElement;
@@ -281,7 +281,7 @@ export class Menu {
     );
 
     const getOptionId = (index: number): string =>
-      Array.from(this.host.shadowRoot.querySelectorAll("li"))[index].id;
+      Array.from(this.host.querySelectorAll("li"))[index].id;
 
     switch (event.key) {
       case "ArrowDown":
@@ -474,9 +474,13 @@ export class Menu {
   };
 
   private getSortedOptions = (options: IcMenuOption[]): IcMenuOption[] => {
-    return options.sort((optionA, optionB) =>
-      optionA.recommended && !optionB.recommended ? -1 : 0
-    );
+    let sorted: IcMenuOption[] = [];
+    if (options.sort) {
+      sorted = options.sort((optionA, optionB) =>
+        optionA.recommended && !optionB.recommended ? -1 : 0
+      );
+    }
+    return sorted;
   };
 
   private isManualMode = this.activationType === "manual";
@@ -499,7 +503,7 @@ export class Menu {
   };
 
   private loadUngroupedOptions = () => {
-    if (this.options.length > 0) {
+    if (this.options.length > 0 && this.options.map) {
       this.options.map((option) => {
         if (option.children) {
           option.children.map(
@@ -516,7 +520,7 @@ export class Menu {
 
   private setMenuScrollbar = () => {
     let optionsHeight = 0;
-    this.host.shadowRoot
+    this.host
       .querySelectorAll(".option")
       .forEach((option) => (optionsHeight += option.clientHeight));
 
@@ -614,7 +618,7 @@ export class Menu {
         !this.focusFromSearchKeypress &&
         !this.preventIncorrectTabOrder
       ) {
-        const highlightedEl = this.host.shadowRoot.querySelector(
+        const highlightedEl = this.host.querySelector(
           `li[data-value="${this.optionHighlighted}"]`
         ) as HTMLElement;
 

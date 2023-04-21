@@ -15,6 +15,7 @@ import { IcHeroContentAlignments } from "./components/ic-hero/ic-hero.types";
 import { IcAriaLiveModeVariants } from "./components/ic-input-validation/ic-input-validation.types";
 import { IcLoadingSizes, IcLoadingTypes } from "./components/ic-loading-indicator/ic-loading-indicator.types";
 import { IcMenuChangeEventDetail, IcMenuOptionIdEventDetail, IcOptionSelectEventDetail } from "./components/ic-menu/ic-menu.types";
+import { IcMenuItemVariants } from "./components/ic-menu-item/ic-menu-item.types";
 import { IcAutocompleteTypes as IcAutocompleteTypes1, IcAutocorrectStates as IcAutocorrectStates1, IcBlurEventDetail, IcInformationStatusOrEmpty as IcInformationStatusOrEmpty1, IcValueEventDetail } from "./interface";
 import { IcSearchBarBlurEventDetail } from "./components/ic-search-bar/ic-search-bar.types";
 import { IcSkeletonVariants } from "./components/ic-skeleton/ic-skeleton.types";
@@ -611,7 +612,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * If `true`, the 'open in new tab/window' icon will be displayed.
+          * @deprecated This prop should not be used anymore. The 'open in new tab/window' icon will display automatically if target="_blank".
          */
         "showIcon"?: boolean;
         /**
@@ -712,6 +713,58 @@ export namespace Components {
           * The value of the currently selected option.
          */
         "value": string;
+    }
+    interface IcMenuGroup {
+        /**
+          * The label to display as the title of the menu group.
+         */
+        "label"?: string;
+    }
+    interface IcMenuItem {
+        /**
+          * The description displayed in the menu item, below the label.
+         */
+        "description"?: string;
+        /**
+          * If `true`, the menu item will be in disabled state.
+         */
+        "disabled"?: boolean;
+        /**
+          * The URL that the link points to. This will render the menu item as an "a" tag.
+         */
+        "href"?: string;
+        /**
+          * The human language of the linked URL.
+         */
+        "hreflang"?: string;
+        /**
+          * The label describing the keyboard shortcut for a menu item's action.
+         */
+        "keyboardShortcut"?: string;
+        /**
+          * The label to display in the menu item.
+         */
+        "label": string;
+        /**
+          * How much of the referrer to send when following the link.
+         */
+        "referrerpolicy"?: ReferrerPolicy;
+        /**
+          * The relationship of the linked URL as space-separated link types.
+         */
+        "rel"?: string;
+        /**
+          * This references the popover menu instance that the menu item is a trigger for. If this prop is set, then the variant will always be default.
+         */
+        "submenuTriggerFor"?: string;
+        /**
+          * The place to display the linked URL, as the name for a browsing context (a tab, window, or iframe).
+         */
+        "target"?: string;
+        /**
+          * The variant of the menu item.
+         */
+        "variant": IcMenuItemVariants;
     }
     interface IcNavigationButton {
         /**
@@ -845,6 +898,25 @@ export namespace Components {
           * The subtitle to render on the page header.
          */
         "subheading"?: string;
+    }
+    interface IcPopoverMenu {
+        /**
+          * The ID of the element the popover menu will anchor itself to. This is required unless the popover is a submenu.
+         */
+        "anchor": string;
+        /**
+          * If `true`, the popover menu will be displayed.
+         */
+        "open": boolean;
+        "openFromChild": () => Promise<void>;
+        "openFromParent": () => Promise<void>;
+        "parentLabel"?: string;
+        "parentPopover"?: HTMLIcPopoverMenuElement;
+        /**
+          * The unique identifier for a popover submenu.
+         */
+        "submenuId"?: string;
+        "submenuLevel": number;
     }
     interface IcRadioGroup {
         /**
@@ -1036,7 +1108,7 @@ export namespace Components {
     }
     interface IcSelect {
         /**
-          * The number of characters until suggestions appear for a searchable select.
+          * @deprecated This prop should not be used anymore.
          */
         "charactersUntilSuggestions"?: number;
         /**
@@ -1591,6 +1663,10 @@ export interface IcMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIcMenuElement;
 }
+export interface IcMenuItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIcMenuItemElement;
+}
 export interface IcNavigationItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIcNavigationItemElement;
@@ -1806,6 +1882,18 @@ declare global {
         prototype: HTMLIcMenuElement;
         new (): HTMLIcMenuElement;
     };
+    interface HTMLIcMenuGroupElement extends Components.IcMenuGroup, HTMLStencilElement {
+    }
+    var HTMLIcMenuGroupElement: {
+        prototype: HTMLIcMenuGroupElement;
+        new (): HTMLIcMenuGroupElement;
+    };
+    interface HTMLIcMenuItemElement extends Components.IcMenuItem, HTMLStencilElement {
+    }
+    var HTMLIcMenuItemElement: {
+        prototype: HTMLIcMenuItemElement;
+        new (): HTMLIcMenuItemElement;
+    };
     interface HTMLIcNavigationButtonElement extends Components.IcNavigationButton, HTMLStencilElement {
     }
     var HTMLIcNavigationButtonElement: {
@@ -1835,6 +1923,12 @@ declare global {
     var HTMLIcPageHeaderElement: {
         prototype: HTMLIcPageHeaderElement;
         new (): HTMLIcPageHeaderElement;
+    };
+    interface HTMLIcPopoverMenuElement extends Components.IcPopoverMenu, HTMLStencilElement {
+    }
+    var HTMLIcPopoverMenuElement: {
+        prototype: HTMLIcPopoverMenuElement;
+        new (): HTMLIcPopoverMenuElement;
     };
     interface HTMLIcRadioGroupElement extends Components.IcRadioGroup, HTMLStencilElement {
     }
@@ -1996,11 +2090,14 @@ declare global {
         "ic-link": HTMLIcLinkElement;
         "ic-loading-indicator": HTMLIcLoadingIndicatorElement;
         "ic-menu": HTMLIcMenuElement;
+        "ic-menu-group": HTMLIcMenuGroupElement;
+        "ic-menu-item": HTMLIcMenuItemElement;
         "ic-navigation-button": HTMLIcNavigationButtonElement;
         "ic-navigation-group": HTMLIcNavigationGroupElement;
         "ic-navigation-item": HTMLIcNavigationItemElement;
         "ic-navigation-menu": HTMLIcNavigationMenuElement;
         "ic-page-header": HTMLIcPageHeaderElement;
+        "ic-popover-menu": HTMLIcPopoverMenuElement;
         "ic-radio-group": HTMLIcRadioGroupElement;
         "ic-radio-option": HTMLIcRadioOptionElement;
         "ic-search-bar": HTMLIcSearchBarElement;
@@ -2622,7 +2719,7 @@ declare namespace LocalJSX {
          */
         "rel"?: string;
         /**
-          * If `true`, the 'open in new tab/window' icon will be displayed.
+          * @deprecated This prop should not be used anymore. The 'open in new tab/window' icon will display automatically if target="_blank".
          */
         "showIcon"?: boolean;
         /**
@@ -2721,6 +2818,64 @@ declare namespace LocalJSX {
           * The value of the currently selected option.
          */
         "value": string;
+    }
+    interface IcMenuGroup {
+        /**
+          * The label to display as the title of the menu group.
+         */
+        "label"?: string;
+    }
+    interface IcMenuItem {
+        /**
+          * The description displayed in the menu item, below the label.
+         */
+        "description"?: string;
+        /**
+          * If `true`, the menu item will be in disabled state.
+         */
+        "disabled"?: boolean;
+        /**
+          * The URL that the link points to. This will render the menu item as an "a" tag.
+         */
+        "href"?: string;
+        /**
+          * The human language of the linked URL.
+         */
+        "hreflang"?: string;
+        /**
+          * The label describing the keyboard shortcut for a menu item's action.
+         */
+        "keyboardShortcut"?: string;
+        /**
+          * The label to display in the menu item.
+         */
+        "label": string;
+        "onChildBlur"?: (event: IcMenuItemCustomEvent<void>) => void;
+        "onHandleMenuItemClick"?: (event: IcMenuItemCustomEvent<{
+    label: string;
+    hasSubMenu: boolean;
+  }>) => void;
+        "onTriggerPopoverMenuInstance"?: (event: IcMenuItemCustomEvent<void>) => void;
+        /**
+          * How much of the referrer to send when following the link.
+         */
+        "referrerpolicy"?: ReferrerPolicy;
+        /**
+          * The relationship of the linked URL as space-separated link types.
+         */
+        "rel"?: string;
+        /**
+          * This references the popover menu instance that the menu item is a trigger for. If this prop is set, then the variant will always be default.
+         */
+        "submenuTriggerFor"?: string;
+        /**
+          * The place to display the linked URL, as the name for a browsing context (a tab, window, or iframe).
+         */
+        "target"?: string;
+        /**
+          * The variant of the menu item.
+         */
+        "variant"?: IcMenuItemVariants;
     }
     interface IcNavigationButton {
         /**
@@ -2845,6 +3000,23 @@ declare namespace LocalJSX {
           * The subtitle to render on the page header.
          */
         "subheading"?: string;
+    }
+    interface IcPopoverMenu {
+        /**
+          * The ID of the element the popover menu will anchor itself to. This is required unless the popover is a submenu.
+         */
+        "anchor"?: string;
+        /**
+          * If `true`, the popover menu will be displayed.
+         */
+        "open"?: boolean;
+        "parentLabel"?: string;
+        "parentPopover"?: HTMLIcPopoverMenuElement;
+        /**
+          * The unique identifier for a popover submenu.
+         */
+        "submenuId"?: string;
+        "submenuLevel"?: number;
     }
     interface IcRadioGroup {
         /**
@@ -3082,7 +3254,7 @@ declare namespace LocalJSX {
     }
     interface IcSelect {
         /**
-          * The number of characters until suggestions appear for a searchable select.
+          * @deprecated This prop should not be used anymore.
          */
         "charactersUntilSuggestions"?: number;
         /**
@@ -3683,11 +3855,14 @@ declare namespace LocalJSX {
         "ic-link": IcLink;
         "ic-loading-indicator": IcLoadingIndicator;
         "ic-menu": IcMenu;
+        "ic-menu-group": IcMenuGroup;
+        "ic-menu-item": IcMenuItem;
         "ic-navigation-button": IcNavigationButton;
         "ic-navigation-group": IcNavigationGroup;
         "ic-navigation-item": IcNavigationItem;
         "ic-navigation-menu": IcNavigationMenu;
         "ic-page-header": IcPageHeader;
+        "ic-popover-menu": IcPopoverMenu;
         "ic-radio-group": IcRadioGroup;
         "ic-radio-option": IcRadioOption;
         "ic-search-bar": IcSearchBar;
@@ -3743,11 +3918,14 @@ declare module "@stencil/core" {
             "ic-link": LocalJSX.IcLink & JSXBase.HTMLAttributes<HTMLIcLinkElement>;
             "ic-loading-indicator": LocalJSX.IcLoadingIndicator & JSXBase.HTMLAttributes<HTMLIcLoadingIndicatorElement>;
             "ic-menu": LocalJSX.IcMenu & JSXBase.HTMLAttributes<HTMLIcMenuElement>;
+            "ic-menu-group": LocalJSX.IcMenuGroup & JSXBase.HTMLAttributes<HTMLIcMenuGroupElement>;
+            "ic-menu-item": LocalJSX.IcMenuItem & JSXBase.HTMLAttributes<HTMLIcMenuItemElement>;
             "ic-navigation-button": LocalJSX.IcNavigationButton & JSXBase.HTMLAttributes<HTMLIcNavigationButtonElement>;
             "ic-navigation-group": LocalJSX.IcNavigationGroup & JSXBase.HTMLAttributes<HTMLIcNavigationGroupElement>;
             "ic-navigation-item": LocalJSX.IcNavigationItem & JSXBase.HTMLAttributes<HTMLIcNavigationItemElement>;
             "ic-navigation-menu": LocalJSX.IcNavigationMenu & JSXBase.HTMLAttributes<HTMLIcNavigationMenuElement>;
             "ic-page-header": LocalJSX.IcPageHeader & JSXBase.HTMLAttributes<HTMLIcPageHeaderElement>;
+            "ic-popover-menu": LocalJSX.IcPopoverMenu & JSXBase.HTMLAttributes<HTMLIcPopoverMenuElement>;
             "ic-radio-group": LocalJSX.IcRadioGroup & JSXBase.HTMLAttributes<HTMLIcRadioGroupElement>;
             "ic-radio-option": LocalJSX.IcRadioOption & JSXBase.HTMLAttributes<HTMLIcRadioOptionElement>;
             "ic-search-bar": LocalJSX.IcSearchBar & JSXBase.HTMLAttributes<HTMLIcSearchBarElement>;
