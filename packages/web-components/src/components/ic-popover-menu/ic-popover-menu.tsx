@@ -28,6 +28,32 @@ export class PopoverMenu {
   @Prop() anchor: string;
 
   /**
+   * If true, the popover will anchor to the mouse position.
+   */
+  @Prop() mouseAnchor?: boolean = false;
+
+  /**
+   * If true, the ic-popover-menu will open when a MouseEvent button press occurs.
+   * If the "anchor" property element id is defined, this will only happen when clicking
+   * within the bounds of the anchor element.
+   * ButtonPressVals can be used to define which mouse buttons 
+   * can trigger this behaviour: by default this is a left click.
+   */
+  @Prop() openOnMouseEventButtonPress?: boolean = true;
+
+  /**
+   * The MouseEvent.button values that can trigger an ic-popover-menu open
+   * Defaults to [0], i.e. mouse left click only
+   * 
+   * 0 = left click
+   * 1 = middle click
+   * 2 = right click
+   * 3 = mouse browser back
+   * 4 = mouse browser forward
+   */
+  @Prop() openOnMouseEventButtonPressVals: number[] = [0];
+
+  /**
    * The unique identifier for a popover submenu.
    */
   @Prop() submenuId?: string;
