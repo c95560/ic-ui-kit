@@ -1,0 +1,18 @@
+import { Meta, Story, Canvas, Description } from "@storybook/addon-docs";
+import { html } from "lit-html";
+import readme from "./readme.md";
+
+<Meta title="Web Components/Context menu" component="ic-context-menu" />
+
+<Description markdown={readme} />
+
+### Default
+
+<Canvas>
+  <Story name="Default">
+    {html`
+      <ic-context-graph></<ic-context-graph>
+      <ic-menu></ic-menu>
+    `}
+  </Story>
+</Canvas>

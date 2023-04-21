@@ -20,7 +20,6 @@ export class ComponentGraph {
       <Host>
         <div
           class={{
-            ["component-container"]: true,
             ["disabled"]: this.disabled,
             ["readonly"]: this.readonly,
           }}

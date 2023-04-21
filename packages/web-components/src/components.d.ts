@@ -346,6 +346,12 @@ export namespace Components {
          */
         "readonly"?: boolean;
     }
+    interface IcContextMenu {
+        /**
+          * If `true`, the disabled state will be set.
+         */
+        "displayed"?: boolean;
+    }
     interface IcDataEntity {
         /**
           * The title for the data entity.
@@ -1704,6 +1710,12 @@ declare global {
         prototype: HTMLIcComponentGraphElement;
         new (): HTMLIcComponentGraphElement;
     };
+    interface HTMLIcContextMenuElement extends Components.IcContextMenu, HTMLStencilElement {
+    }
+    var HTMLIcContextMenuElement: {
+        prototype: HTMLIcContextMenuElement;
+        new (): HTMLIcContextMenuElement;
+    };
     interface HTMLIcDataEntityElement extends Components.IcDataEntity, HTMLStencilElement {
     }
     var HTMLIcDataEntityElement: {
@@ -1968,6 +1980,7 @@ declare global {
         "ic-chip": HTMLIcChipElement;
         "ic-classification-banner": HTMLIcClassificationBannerElement;
         "ic-component-graph": HTMLIcComponentGraphElement;
+        "ic-context-menu": HTMLIcContextMenuElement;
         "ic-data-entity": HTMLIcDataEntityElement;
         "ic-data-row": HTMLIcDataRowElement;
         "ic-divider": HTMLIcDividerElement;
@@ -2347,6 +2360,12 @@ declare namespace LocalJSX {
           * If `true`, the readonly state will be set.
          */
         "readonly"?: boolean;
+    }
+    interface IcContextMenu {
+        /**
+          * If `true`, the disabled state will be set.
+         */
+        "displayed"?: boolean;
     }
     interface IcDataEntity {
         /**
@@ -3648,6 +3667,7 @@ declare namespace LocalJSX {
         "ic-chip": IcChip;
         "ic-classification-banner": IcClassificationBanner;
         "ic-component-graph": IcComponentGraph;
+        "ic-context-menu": IcContextMenu;
         "ic-data-entity": IcDataEntity;
         "ic-data-row": IcDataRow;
         "ic-divider": IcDivider;
@@ -3707,6 +3727,7 @@ declare module "@stencil/core" {
             "ic-chip": LocalJSX.IcChip & JSXBase.HTMLAttributes<HTMLIcChipElement>;
             "ic-classification-banner": LocalJSX.IcClassificationBanner & JSXBase.HTMLAttributes<HTMLIcClassificationBannerElement>;
             "ic-component-graph": LocalJSX.IcComponentGraph & JSXBase.HTMLAttributes<HTMLIcComponentGraphElement>;
+            "ic-context-menu": LocalJSX.IcContextMenu & JSXBase.HTMLAttributes<HTMLIcContextMenuElement>;
             "ic-data-entity": LocalJSX.IcDataEntity & JSXBase.HTMLAttributes<HTMLIcDataEntityElement>;
             "ic-data-row": LocalJSX.IcDataRow & JSXBase.HTMLAttributes<HTMLIcDataRowElement>;
             "ic-divider": LocalJSX.IcDivider & JSXBase.HTMLAttributes<HTMLIcDividerElement>;
