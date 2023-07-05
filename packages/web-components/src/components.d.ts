@@ -905,11 +905,28 @@ export namespace Components {
          */
         "anchor": string;
         /**
+          * The ID of the element that can open the popover menu if mouseAnchor is set to true. If null, then use the root element.
+         */
+        "clickEventEle": String;
+        "closeOnMouseEventButtonPressVals": number[];
+        /**
+          * If true, the popover will anchor to the mouse position.
+         */
+        "mouseAnchor"?: boolean;
+        /**
           * If `true`, the popover menu will be displayed.
          */
         "open": boolean;
         "openFromChild": () => Promise<void>;
         "openFromParent": () => Promise<void>;
+        /**
+          * If true, the ic-popover-menu will open when a MouseEvent button press occurs. If the "anchor" property element id is defined, this will only happen when clicking within the bounds of the anchor element. ButtonPressVals can be used to define which mouse buttons  can trigger this behaviour: by default this is a left click.
+         */
+        "openOnMouseEventButtonPress"?: boolean;
+        /**
+          * The MouseEvent.button values that can trigger an ic-popover-menu open Defaults to [0], i.e. mouse left click only Note - contextmenu event is captured as right click  0 = left click 1 = middle click 2 = right click 3 = mouse browser back 4 = mouse browser forward
+         */
+        "openOnMouseEventButtonPressVals": number[];
         "parentLabel"?: string;
         "parentPopover"?: HTMLIcPopoverMenuElement;
         /**
@@ -3007,9 +3024,26 @@ declare namespace LocalJSX {
          */
         "anchor"?: string;
         /**
+          * The ID of the element that can open the popover menu if mouseAnchor is set to true. If null, then use the root element.
+         */
+        "clickEventEle"?: String;
+        "closeOnMouseEventButtonPressVals"?: number[];
+        /**
+          * If true, the popover will anchor to the mouse position.
+         */
+        "mouseAnchor"?: boolean;
+        /**
           * If `true`, the popover menu will be displayed.
          */
         "open"?: boolean;
+        /**
+          * If true, the ic-popover-menu will open when a MouseEvent button press occurs. If the "anchor" property element id is defined, this will only happen when clicking within the bounds of the anchor element. ButtonPressVals can be used to define which mouse buttons  can trigger this behaviour: by default this is a left click.
+         */
+        "openOnMouseEventButtonPress"?: boolean;
+        /**
+          * The MouseEvent.button values that can trigger an ic-popover-menu open Defaults to [0], i.e. mouse left click only Note - contextmenu event is captured as right click  0 = left click 1 = middle click 2 = right click 3 = mouse browser back 4 = mouse browser forward
+         */
+        "openOnMouseEventButtonPressVals"?: number[];
         "parentLabel"?: string;
         "parentPopover"?: HTMLIcPopoverMenuElement;
         /**

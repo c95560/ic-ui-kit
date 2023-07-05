@@ -28,9 +28,18 @@ export class PopoverMenu {
   @Prop() anchor: string;
 
   /**
+   * The ID of the element that can open the popover menu
+   * if mouseAnchor is set to true. If null, then use the root element.
+   */
+  @Prop() clickEventEle: String = document.documentElement.id;
+  private clickEventEleRect: DOMRect = document.documentElement.getBoundingClientRect();
+
+  /**
    * If true, the popover will anchor to the mouse position.
    */
   @Prop() mouseAnchor?: boolean = false;
+  private renderX?: number = 0;
+  private renderY?: number = 0;
 
   /**
    * If true, the ic-popover-menu will open when a MouseEvent button press occurs.
@@ -44,6 +53,7 @@ export class PopoverMenu {
   /**
    * The MouseEvent.button values that can trigger an ic-popover-menu open
    * Defaults to [0], i.e. mouse left click only
+   * Note - contextmenu event is captured as right click
    * 
    * 0 = left click
    * 1 = middle click
@@ -51,7 +61,8 @@ export class PopoverMenu {
    * 3 = mouse browser back
    * 4 = mouse browser forward
    */
-  @Prop() openOnMouseEventButtonPressVals: number[] = [0];
+  @Prop() openOnMouseEventButtonPressVals: number[] = [2];
+  @Prop() closeOnMouseEventButtonPressVals: number[] = [0];
 
   /**
    * The unique identifier for a popover submenu.
@@ -152,13 +163,40 @@ export class PopoverMenu {
     return anchorElement;
   };
 
-  @Listen("click", { target: "document" })
-  handleClick(ev: Event): void {
-    ev.preventDefault();
-    if (this.open && this.isNotPopoverMenuEl(ev)) {
-      // If menu is open and the next click on the document is not a popover El, close the popover
-      this.closeMenu();
+  @Listen("contextmenu", { target: "document" })
+  handleContextMenu(ev: MouseEvent): void {
+    console.log("contextmenu triggered 01");
+    if (this.isClickEventEle(ev)) {
+      ev.preventDefault();
+      if (!this.open) {
+        console.log("contextmenu triggered");
+        let new_ev = new MouseEvent('click', {bubbles:true, button: 2, clientX: ev.clientX, clientY: ev.clientY});
+        ev.target.dispatchEvent(new_ev);
+      }
     }
+  }
+
+  @Listen("click", { target: "document" })
+  handleClick(ev: MouseEvent): void {
+    console.log("click triggered");
+    document.documentElement.style.backgroundColor = 'red';
+    ev.preventDefault();
+    if (this.open && this.isNotPopoverMenuEl(ev) && this.closeOnMouseEventButtonPressVals.includes(ev.button)) {
+      // If menu is open and the next click on the document is 
+      // not a popover El, close the popover
+      console.log("left click triggered");
+      this.closeMenu();
+    } else if (!this.open && this.isClickEventEle(ev) && this.openOnMouseEventButtonPressVals.includes(ev.button)) {
+      // If the menu is not open and the next click on document is
+      // the specified click element (root element by default), then open the popover
+      // console.log("opening menu");
+      this.renderX = ev.clientX;
+      this.renderY = ev.clientY;
+      console.log(`x is ${ev.clientX}, y is ${ev.clientY}`);
+      this.openMenu();
+      console.log("right click triggered");
+    }
+
   }
 
   /**
@@ -193,9 +231,26 @@ export class PopoverMenu {
     );
   };
 
+  private isClickEventEle = (ev: MouseEvent) => {
+    const target = ev.target as HTMLElement;
+    // check id and rectangle area
+    return ( 
+      target.id === this.clickEventEle ||
+      (
+        (ev.clientX && ev.clientX > this.clickEventEleRect.left && ev.clientX < this.clickEventEleRect.right) &&
+        (ev.clientY && ev.clientY > this.clickEventEleRect.top && ev.clientY < this.clickEventEleRect.bottom)
+      )
+    )
+  };
+
   private closeMenu = () => {
     this.open = false;
     this.anchorEl.focus();
+  };
+
+  private openMenu = () => {
+    this.open = true;
+    //this.anchorEl.blur();
   };
 
   private getNextItemToSelect = (
@@ -283,7 +338,25 @@ export class PopoverMenu {
 
   componentDidRender(): void {
     if (this.open) {
-      createPopper(this.anchorEl, this.host, {
+      let anchorElRef;
+      let handle = this;
+      function generateGetBoundingClientRect(handle: PopoverMenu) {
+        return () => ({
+          width: 0,
+          height: 0,
+          top: handle.renderY,
+          right: handle.renderX,
+          bottom: handle.renderY,
+          left: handle.renderX,
+          x: handle.renderX,
+          y: handle.renderY,
+          toJSON: ():any => null
+        });
+      }
+      anchorElRef = {
+        getBoundingClientRect: generateGetBoundingClientRect(handle),
+      }
+      createPopper(anchorElRef, this.host, {
         placement: "bottom-start",
         modifiers: [
           {
@@ -294,6 +367,13 @@ export class PopoverMenu {
           },
         ],
       });
+    } else {
+      // anchor the menu again so a call to .open does not use the last MouseEvent pos
+      if (this.anchorEl) {
+        const anchorRect: DOMRect = this.anchorEl.getBoundingClientRect()
+        this.renderX = anchorRect.left;
+        this.renderY = anchorRect.bottom;
+      }
     }
   }
 
